@@ -1,0 +1,17 @@
+<?php
+
+namespace CarlBennett\MVC\Templates;
+
+$title       = "Maintenance";
+$description = $this->context->message;
+$slim_ui     = true;
+
+require("./header.inc.phtml");
+?>
+      <article>
+        <header>Maintenance</header>
+        <section>
+          <p><?php echo nl2br(htmlspecialchars($this->context->message, ENT_HTML5, "UTF-8")); ?></p>
+        </section>
+      </article>
+<?php require("./footer.inc.phtml"); ?>
