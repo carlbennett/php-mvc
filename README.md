@@ -47,5 +47,5 @@ command to work successfully on my local development machine:
 
 ```sh
 REMOTE_ADDR="8.8.8.8" REQUEST_URI="/status" HTTP_USER_AGENT="Chrome" \
-  php -d display_errors=1 -d date.timezone=UTC -f ./main.php;echo
+  php -d display_errors=On -d date.timezone=UTC -f ./main.php;echo
 ```
