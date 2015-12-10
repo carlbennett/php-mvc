@@ -34,11 +34,19 @@ namespace CarlBennett\MVC\Tests\Libraries {
 namespace CarlBennett\MVC\Tests {
 
   function main($argc, $argv) {
+    assert_options(ASSERT_CALLBACK, function() {
+      exit(1);
+    });
+
+    ob_start();
     $c = new \CarlBennett\MVC\Tests\Controllers\TestController();
     $c->run();
+    assert(ob_get_clean() === "The test controller is being tested.\n");
 
+    ob_start();
     $c = new \CarlBennett\MVC\Tests\Controllers\HTTP404();
     $c->run();
+    assert(ob_get_clean() === "404 Not Found\n");
 
     return 0;
   }
