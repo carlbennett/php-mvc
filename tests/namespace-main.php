@@ -49,6 +49,7 @@ namespace CarlBennett\MVC\Tests {
     $c->run();
     assert(ob_get_clean() === "404 Not Found\n");
 
+    echo "Unit test succeeded: " . __FILE__ . "\n";
     return 0;
   }
 

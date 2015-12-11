@@ -9,6 +9,7 @@ namespace CarlBennett\MVC\Tests {
       exit(1);
     });
 
+    echo "Unit test succeeded: " . __FILE__ . "\n";
     return 0;
   }
 

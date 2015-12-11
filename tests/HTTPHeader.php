@@ -20,6 +20,7 @@ namespace CarlBennett\MVC\Tests\HTTPHeader {
     assert((string) $obj    === "foo: bar\n");
     unset($obj);
 
+    echo "Unit test succeeded: " . __FILE__ . "\n";
     return 0;
   }
 

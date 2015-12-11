@@ -17,6 +17,7 @@ namespace CarlBennett\MVC\Tests\HTTPHeader {
     assert($obj->getValue() === "bar");
     unset($obj);
 
+    echo "Unit test succeeded: " . __FILE__ . "\n";
     return 0;
   }
 
