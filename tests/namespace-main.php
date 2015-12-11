@@ -34,7 +34,8 @@ namespace CarlBennett\MVC\Tests\Libraries {
 namespace CarlBennett\MVC\Tests {
 
   function main($argc, $argv) {
-    assert_options(ASSERT_CALLBACK, function() {
+    assert_options(ASSERT_CALLBACK, function(){
+      echo "Unit test failed: " . __FILE__ . "\n";
       exit(1);
     });
 
