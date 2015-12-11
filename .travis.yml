@@ -27,4 +27,4 @@ before_script:
   - cp config.sample.json config.json
 script:
   - bash -c 'set -e;for file in $(find . -type f -regex .*\.php -print); do php -e -l -f "$file"; done'
-  - bash -c 'set -e;for file in $(find ./tests -type f -regex .*\.php -print); do php -e -f "$file"; done'
+  - bash -c 'set -e;cd ./tests;for file in $(find . -type f -regex .*\.php -print); do php -e -f "$file"; done'
