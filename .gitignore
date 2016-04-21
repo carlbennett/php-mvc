@@ -9,6 +9,7 @@
 *.iso
 *.jar
 *.log
+*.patch
 *.rar
 *.swp
 *.tar
@@ -19,5 +20,6 @@
 .Spotlight-V100
 .Trashes
 ._*
+/.rsync-target
 /config.json
 Thumbs.db
