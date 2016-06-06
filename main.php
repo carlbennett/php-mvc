@@ -19,11 +19,11 @@ function main() {
     if ($cursor !== false) {
       $path = strtolower(substr($path, 0, $cursor)) . substr($path, $cursor);
     }
-    $path = str_replace("\\", "/", $path);
+    $path = str_replace("\\", DIRECTORY_SEPARATOR, $path);
     $classShortName = $path;
     $docroot = getenv("DOCUMENT_ROOT");
     if (empty($docroot)) $docroot = ".";
-    $path = $docroot . "/" . $path . ".php";
+    $path = $docroot . DIRECTORY_SEPARATOR . $path . ".php";
     if (!file_exists($path)) {
       trigger_error("Class not found: " . $classShortName, E_USER_ERROR);
     }
