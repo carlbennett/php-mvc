@@ -46,6 +46,7 @@ If you want to try this out without a web server, I've gotten the following
 command to work successfully on my local development machine:
 
 ```sh
-REMOTE_ADDR="8.8.8.8" REQUEST_URI="/status" HTTP_USER_AGENT="Chrome" \
+REMOTE_ADDR="$(curl -s checkip.amazonaws.com)" \
+  REQUEST_URI="/status" HTTP_USER_AGENT="Chrome" \
   php -d display_errors=On -d date.timezone=UTC -f ./main.php;echo
 ```
