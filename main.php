@@ -25,7 +25,7 @@ function main() {
     if (empty($docroot)) $docroot = ".";
     $path = $docroot . "/" . $path . ".php";
     if (!file_exists($path)) {
-      trigger_error("Class not found: " .$classShortName, E_USER_ERROR);
+      trigger_error("Class not found: " . $classShortName, E_USER_ERROR);
     }
     require_once($path);
   });
