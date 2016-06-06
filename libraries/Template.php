@@ -8,7 +8,9 @@ use \SplObjectStorage;
 
 final class Template {
 
+  protected $additional_css;
   protected $context;
+  protected $opengraph;
   protected $template;
 
   public function __construct(&$context, $template) {
