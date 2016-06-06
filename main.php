@@ -62,7 +62,7 @@ function main() {
     }
     Logger::logMetric("error_data", json_encode($json, JSON_PRETTY_PRINT));
     Logger::logException($e);
-    die(json_encode($json, Common::prettyJSONIfBrowser()));
+    exit(json_encode($json, Common::prettyJSONIfBrowser()));
   });
 
   set_error_handler(function($errno, $errstr, $errfile, $errline, $errcontext){
@@ -88,7 +88,7 @@ function main() {
     }
     Logger::logMetric("error_data", json_encode($json, JSON_PRETTY_PRINT));
     Logger::logError($errno, $errstr, $errfile, $errline, $errcontext);
-    die(json_encode($json, Common::prettyJSONIfBrowser()));
+    exit(json_encode($json, Common::prettyJSONIfBrowser()));
   });
 
   Logger::initialize();
