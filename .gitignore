@@ -20,6 +20,6 @@
 .Spotlight-V100
 .Trashes
 ._*
-/.rsync-target
+/composer.lock
 /config.json
 Thumbs.db
