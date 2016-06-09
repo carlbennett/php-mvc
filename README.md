@@ -7,7 +7,8 @@ php-mvc
 Preface
 -------
 **php-mvc** is a web content management system (CMS) developed by
-[@carlbennett](https://github.com/carlbennett) for as a frontend and backend.
+[@carlbennett](https://github.com/carlbennett) for use as a frontend and
+backend.
 
 Installation
 ------------
