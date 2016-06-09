@@ -2,7 +2,6 @@
 
 namespace CarlBennett\MVC\Libraries;
 
-use \CarlBennett\MVC\Libraries\Common;
 use \Memcached;
 
 class Cache {
@@ -11,17 +10,22 @@ class Cache {
 
   protected $memcache;
 
-  public function __construct() {
+  public function __construct($servers, $timeout = 1, $tcp_nodelay = true) {
     $this->memcache = new Memcached();
     $this->memcache->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
-    $this->memcache->setOption(Memcached::OPT_TCP_NODELAY,
-      Common::$config->memcache->tcp_nodelay
+    $this->memcache->setOption(Memcached::OPT_TCP_NODELAY, $tcp_nodelay);
+    $this->memcache->setOption(
+      Memcached::OPT_CONNECT_TIMEOUT, $timeout * 1000
     );
-    $this->memcache->setOption(Memcached::OPT_CONNECT_TIMEOUT,
-      Common::$config->memcache->connect_timeout * 1000
-    );
-    foreach (Common::$config->memcache->servers as $server) {
+    if (is_string($servers)) {
+      $server = explode(":", $servers);
+      $this->memcache->addServer($server[0], (int) $server[1]);
+    } else if ($servers instanceof StdClass) {
       $this->memcache->addServer($server->hostname, $server->port);
+    } else {
+      foreach ($servers as $server) {
+        $this->memcache->addServer($server->hostname, $server->port);
+      }
     }
   }
 
