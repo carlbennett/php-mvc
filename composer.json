@@ -1,0 +1,31 @@
+{
+    "name": "carlbennett/php-mvc",
+    "description": "A web content management system (CMS) compatible for use as a frontend and backend.",
+    "keywords": [
+      "api",
+      "backend",
+      "cms",
+      "content",
+      "frontend",
+      "management",
+      "mvc",
+      "php",
+      "rest",
+      "restful",
+      "system"
+    ],
+    "homepage": "https://github.com/carlbennett/php-mvc",
+    "license": "proprietary",
+    "require": {
+        "ext-curl": "*",
+        "ext-geoip": "*",
+        "ext-gmp": "*",
+        "ext-http": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-mcrypt": "*",
+        "ext-memcached": "*",
+        "ext-pdo": "*",
+        "php-64bit": ">=5.5.0"
+    }
+}

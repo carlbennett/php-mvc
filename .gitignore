@@ -20,6 +20,6 @@
 .Spotlight-V100
 .Trashes
 ._*
-/.rsync-target
 /config.json
+/vendor
 Thumbs.db
