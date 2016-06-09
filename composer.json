@@ -15,7 +15,7 @@
       "system"
     ],
     "homepage": "https://github.com/carlbennett/php-mvc",
-    "license": "proprietary",
+    "license": "CC-BY-SA-4.0",
     "require": {
         "ext-curl": "*",
         "ext-geoip": "*",
