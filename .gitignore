@@ -22,4 +22,5 @@
 ._*
 /composer.lock
 /config.json
+/vendor
 Thumbs.db
