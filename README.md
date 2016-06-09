@@ -1,52 +1,39 @@
 php-mvc
 =======
 
-[![Build Status](https://travis-ci.org/carlbennett/php-mvc.svg?branch=master)](https://travis-ci.org/carlbennett/php-mvc)
+[![Build Status](https://travis-ci.org/carlbennett/php-mvc.svg?branch=master)]
+(https://travis-ci.org/carlbennett/php-mvc)
 
 Preface
 -------
-php-mvc is a web content management system (CMS) developed by Carl Bennett for
-use in his PHP projects. It's compatible for use as a frontend and backend.
+**php-mvc** is a web content management system (CMS) developed by
+[@carlbennett](https://github.com/carlbennett) for as a frontend and backend.
 
 Installation
 ------------
+This library is available via [composer](https://getcomposer.org). Although it
+is currently not available on _Packagist_, you can manually add this library to
+your project by adding the following JSON to your `composer.json` file.
 
-1. Clone this repository to a local directory on your development environment.
- - Recommended location: `/home/nginx/php-mvc/`
-2. Setup an nginx/php-fpm web server using
-   [nginx-conf](https://github.com/carlbennett/nginx-conf) as the config.
- - Modify the example server config to use `local.carlbennett.me` instead.
- - Add the following to the `local.carlbennett.me` server config file:<br/>
-   `include conf.d/php.conf;`
- - Add the following to the `local.carlbennett.me` server config file:<br/>
-   `location / { try_files /static$uri /main.php$is_args$args; }`
-3. Install additional php modules:
- - php-gmp
- - php-mbstring
- - php-mcrypt
- - php-memcache
- - php-memcached
- - php-mysqlnd
- - php-pdo
- - php-pecl-geoip
- - php-pecl-http
- - php-pecl-jsonc
-4. Start nginx and php-fpm on your server and ensure they begin running.
-5. Import and setup the sample database.
-6. Copy `/config.sample.json` to `/config.json` and modify it to your
-   environment.
-7. Try accessing this endpoint:
-   [local.carlbennett.me](https://local.carlbennett.me)
- - You may need to modify your `/etc/hosts` file if your development
-   environment is not your localhost.
-
-Without a Web server
---------------------
-If you want to try this out without a web server, I've gotten the following
-command to work successfully on my local development machine:
-
-```sh
-REMOTE_ADDR="$(curl -s checkip.amazonaws.com)" \
-  REQUEST_URI="/status" HTTP_USER_AGENT="Chrome" \
-  php -d display_errors=On -d date.timezone=UTC -f ./main.php;echo
+```json
+{
+    "require": {
+        "carlbennett/php-mvc": "*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/carlbennett/php-mvc"
+        }
+    ]
+}
 ```
+
+Once added to your composer as specified above, you should then be able to run
+`composer install` to download and install this library to your project.
+
+Disclaimer
+----------
+This library is currently undergoing a revamp of restructure in preparation for
+making it compatible with _composer_. For a stable version, please see release
+[1.0.0](https://github.com/carlbennett/php-mvc/releases/tag/1.0.0).
