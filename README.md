@@ -19,7 +19,7 @@ your project by adding the following JSON to your `composer.json` file.
 ```json
 {
     "require": {
-        "carlbennett/php-mvc": "*"
+        "carlbennett/php-mvc": "dev-master"
     },
     "repositories": [
         {
