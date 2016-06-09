@@ -20,7 +20,6 @@
 .Spotlight-V100
 .Trashes
 ._*
-/composer.lock
 /config.json
 /vendor
 Thumbs.db
