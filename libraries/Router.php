@@ -2,7 +2,9 @@
 
 namespace CarlBennett\MVC\Libraries;
 
+use \BadFunctionCallException;
 use \CarlBennett\MVC\Libraries\Exceptions\ControllerNotFoundException;
+use \CarlBennett\MVC\Libraries\Exceptions\ViewNotFoundException;
 use \CarlBennett\MVC\Libraries\HTTPHeader;
 use \CarlBennett\MVC\Libraries\Pair;
 use \DateTime;
@@ -115,8 +117,14 @@ class Router {
     $this->responseContent .= $buffer;
   }
 
-  public function addRoute($pattern, $controller, $view) {
-    $this->routes[$pattern] = new Pair($controller, $view);
+  public function addRoute() {
+    $args = func_get_args();
+    if (count($args) < 3) {
+      throw new BadFunctionCallException(
+        "Adding a route requires a pattern, controller, and view"
+      );
+    }
+    $this->routes[array_shift($args)] = $args;
   }
 
   public function deleteRoute($pattern) {
@@ -185,19 +193,19 @@ class Router {
 
     Logger::setTransactionName($path);
 
-    foreach ($this->routes as $route => $pair) {
+    foreach ($this->routes as $route => $args) {
       if (preg_match($route, $path) === 1) {
-        $target = $pair;
+        $target = $args;
         break;
       }
     }
 
-    if (is_null($pair)) {
+    if (is_null($args)) {
       throw new ControllerNotFoundException($path);
     }
 
-    $controller = $pair->getKey();
-    $view       = $pair->getValue();
+    $controller = array_shift($args);
+    $view       = array_shift($args);
 
     if (is_string($controller) && !class_exists($controller)) {
       throw new ControllerNotFoundException($controller);
@@ -217,7 +225,7 @@ class Router {
 
     ob_start();
 
-    $model = $controller->run($this, $view);
+    $model = $controller->run($this, $view, $args);
 
     $this->setResponseCode($model->_responseCode);
     $this->setResponseTTL($model->_responseTTL);

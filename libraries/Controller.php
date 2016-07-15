@@ -12,6 +12,6 @@ abstract class Controller {
         Logger::logMetric("controller", get_class($this));
     }
 
-    public abstract function &run(Router &$router, View &$view);
+    public abstract function &run(Router &$router, View &$view, array &$args);
 
 }
