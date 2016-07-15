@@ -199,9 +199,6 @@ class Router {
       $target = new $target;
     }
 
-    // Prevent clickjacking globally:
-    $this->setResponseHeader("X-Frame-Options", "DENY");
-
     ob_start();
 
     $model = $target->run($this);
