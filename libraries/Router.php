@@ -182,6 +182,8 @@ class Router {
     $path   = $this->getRequestPathString(true);
     $target = null;
 
+    Logger::setTransactionName($path);
+
     foreach ($this->routes as $route => $controller) {
       if (preg_match($route, $path) === 1) {
         $target = $controller;
@@ -189,46 +191,27 @@ class Router {
       }
     }
 
-    var_dump($target);die();
-  }
+    if (is_null($target) || (is_string($target) && !class_exists($target))) {
+      throw new ControllerNotFoundException();
+    }
 
-  public function routeOld(Pair &$redirect = null) {
-    $pathArray = $this->getRequestPathArray();
-    $path      = (isset($pathArray[1]) ? $pathArray[1] : null);
-    $subpath   = (isset($pathArray[2]) ? $pathArray[2] : null);
-    Logger::setTransactionName(
-      $path . (isset($subpath) ? "/" . $subpath : "")
-    );
-
-    ob_start();
-
-    if (Common::$config->phpmvc->maintenance[0]) {
-      $controller = new MaintenanceController(
-        Common::$config->phpmvc->maintenance[1]
-      );
-    } else if (isset($redirect)) {
-      $controller = new RedirectController(
-        $redirect->getKey(), $redirect->getValue()
-      );
-    } else {
-      try {
-        switch ($path) {
-          case "status": case "status.json": case "status.txt":
-            $controller = new StatusController();
-          break;
-          default:
-            throw new ControllerNotFoundException($path);
-        }
-      } catch (ControllerNotFoundException $e) {
-        $controller = new HTTP404Controller();
-      }
+    if (is_string($target)) {
+      $target = new $target;
     }
 
     // Prevent clickjacking globally:
     $this->setResponseHeader("X-Frame-Options", "DENY");
 
-    $controller->run($this);
-    $this->addResponseContent(ob_get_contents());
+    ob_start();
+
+    $model = $target->run($this);
+
+    $this->setResponseCode($model->_responseCode);
+    $this->setResponseTTL($model->_responseTTL);
+    foreach ($model->_responseHeaders as $k => $v) {
+        $this->setResponseHeader($k, $v);
+    }
+    $this->setResponseContent(ob_get_contents());
 
     ob_end_clean();
   }
