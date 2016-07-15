@@ -4,6 +4,7 @@ namespace CarlBennett\MVC\Libraries;
 
 use \CarlBennett\MVC\Libraries\Exceptions\ControllerNotFoundException;
 use \CarlBennett\MVC\Libraries\HTTPHeader;
+use \CarlBennett\MVC\Libraries\Pair;
 use \DateTime;
 use \DateTimeZone;
 use \SplObjectStorage;
@@ -114,8 +115,8 @@ class Router {
     $this->responseContent .= $buffer;
   }
 
-  public function addRoute($pattern, $controller) {
-    $this->routes[$pattern] = $controller;
+  public function addRoute($pattern, $controller, $view) {
+    $this->routes[$pattern] = new Pair($controller, $view);
   }
 
   public function deleteRoute($pattern) {
@@ -184,24 +185,39 @@ class Router {
 
     Logger::setTransactionName($path);
 
-    foreach ($this->routes as $route => $controller) {
+    foreach ($this->routes as $route => $pair) {
       if (preg_match($route, $path) === 1) {
-        $target = $controller;
+        $target = $pair;
         break;
       }
     }
 
-    if (is_null($target) || (is_string($target) && !class_exists($target))) {
-      throw new ControllerNotFoundException();
+    if (is_null($pair)) {
+      throw new ControllerNotFoundException($path);
     }
 
-    if (is_string($target)) {
-      $target = new $target;
+    $controller = $pair->getKey();
+    $view       = $pair->getValue();
+
+    if (is_string($controller) && !class_exists($controller))) {
+      throw new ControllerNotFoundException($controller);
+    }
+
+    if (is_string($view) && !class_exists($view))) {
+      throw new ViewNotFoundException($view);
+    }
+
+    if (is_string($controller)) {
+      $controller = new $controller;
+    }
+
+    if (is_string($view)) {
+      $view = new $view;
     }
 
     ob_start();
 
-    $model = $target->run($this);
+    $model = $controller->run($this, $view);
 
     $this->setResponseCode($model->_responseCode);
     $this->setResponseTTL($model->_responseTTL);
