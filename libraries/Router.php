@@ -199,11 +199,11 @@ class Router {
     $controller = $pair->getKey();
     $view       = $pair->getValue();
 
-    if (is_string($controller) && !class_exists($controller))) {
+    if (is_string($controller) && !class_exists($controller)) {
       throw new ControllerNotFoundException($controller);
     }
 
-    if (is_string($view) && !class_exists($view))) {
+    if (is_string($view) && !class_exists($view)) {
       throw new ViewNotFoundException($view);
     }
 
