@@ -23,8 +23,6 @@ install:
   - pear channel-update pear.php.net
   - pecl install geoip
   - pear install http2
-before_script:
-  - cp config.sample.json config.json
 script:
   - bash -c 'set -e;for file in $(find . -type f -regex .*\.php -print); do php -e -l -f "$file"; done'
   - bash -c 'set -e;cd ./tests;for file in $(find . -type f -regex .*\.php -print); do php -e -f "$file"; done'
