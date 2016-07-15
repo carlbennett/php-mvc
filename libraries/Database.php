@@ -2,36 +2,63 @@
 
 namespace CarlBennett\MVC\Libraries;
 
-use \CarlBennett\MVC\Libraries\Common;
 use \PDO;
 
 class Database extends PDO {
 
-  protected $hostname;
-  protected $port;
+    protected $character_set;
+    protected $database;
+    protected $hostname;
+    protected $password;
+    protected $port;
+    protected $timeout;
+    protected $username;
 
-  public function __construct($hostname, $port) {
-    $this->hostname = $hostname;
-    $this->port     = $port;
-    $dsn = "mysql:"
-      . "host=" . $this->hostname . ";"
-      . "port=" . $this->port . ";"
-      . "dbname=" . Common::$config->mysql->database . ";"
-      . "charset=" . Common::$config->mysql->character_set;
-    $username = Common::$config->mysql->username;
-    $password = Common::$config->mysql->password;
-    parent::__construct($dsn, $username, $password, [
-      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-      PDO::ATTR_TIMEOUT => Common::$config->mysql->timeout
-    ]);
-  }
+    public function __construct($host, $port, $user, $pw, $db, $c, $t) {
+        $this->hostname      = $host;
+        $this->port          = $port;
+        $this->username      = $user;
+        $this->password      = $pw;
+        $this->database      = $db;
+        $this->character_set = $c;
+        $this->timeout       = $t;
+        $dsn = "mysql:"
+            . "host=" . $this->hostname . ";"
+            . "port=" . $this->port . ";"
+            . "dbname=" . $this->database . ";"
+            . "charset=" . $this->character_set;
+        parent::__construct($dsn, $this->username, $this->password, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_TIMEOUT => $this->timeout
+        ]);
+    }
 
-  public function getHostname() {
-    return $this->hostname;
-  }
+    public function getCharacterSet() {
+        return $this->character_set;
+    }
 
-  public function getPort() {
-    return $this->port;
-  }
+    public function getDatabase() {
+        return $this->database;
+    }
+
+    public function getHostname() {
+        return $this->hostname;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getPort() {
+        return $this->port;
+    }
+
+    public function getTimeout() {
+        return $this->timeout;
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
 
 }
