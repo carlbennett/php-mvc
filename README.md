@@ -6,9 +6,8 @@ php-mvc
 
 Preface
 -------
-**php-mvc** is a web content management system (CMS) developed by
-[@carlbennett](https://github.com/carlbennett) for use as a frontend and
-backend.
+**php-mvc** is a PHP library with its intended purpose to act as a backend and
+frontend framework for a web content management system (CMS) or REST API.
 
 Installation
 ------------
@@ -32,9 +31,3 @@ your project by adding the following JSON to your `composer.json` file.
 
 Once added to your composer as specified above, you should then be able to run
 `composer install` to download and install this library to your project.
-
-Disclaimer
-----------
-This library is currently undergoing a revamp of restructure in preparation for
-making it compatible with _composer_. For a stable version, please see release
-[1.0.0](https://github.com/carlbennett/php-mvc/releases/tag/1.0.0).
