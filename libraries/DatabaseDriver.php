@@ -11,10 +11,11 @@ use \PDOException;
 
 class DatabaseDriver {
 
+    public static $servers = [];
+
     public static function getDatabaseObject() {
         $last_exception = null;
-        $servers        = self::getServers();
-        foreach ($servers as $server) {
+        foreach (self::$servers as $server) {
             try {
                 $connection = new Database($server->hostname, $server->port);
                 return $connection;
@@ -26,11 +27,6 @@ class DatabaseDriver {
             }
         }
         throw new DatabaseUnavailableException($last_exception);
-    }
-
-    public static function getServers() {
-        // This function should be redeclared by the project.
-        return [];
     }
 
 }
