@@ -15,6 +15,24 @@ class Logger {
      */
     private function __construct() {}
 
+    public static function getTimingHeader($tags = true) {
+        // If $tags is true, then <script> will be included
+        if (extension_loaded("newrelic")) {
+            return newrelic_get_browser_timing_header($tags);
+        } else {
+            return "";
+        }
+    }
+
+    public static function getTimingFooter($tags = true) {
+        // If $tags is true, then <script> will be included
+        if (extension_loaded("newrelic")) {
+            return newrelic_get_browser_timing_footer($tags);
+        } else {
+            return "";
+        }
+    }
+
     public static function getTraceString() {
         ob_start();
         debug_print_backtrace();
