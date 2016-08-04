@@ -59,6 +59,29 @@ final class Common {
     return $response;
   }
 
+  public static function formatFileSize($value) {
+
+    $bytes     = $value;
+    $kilobytes = 1024;
+    $megabytes = 1024 * $kilobytes;
+    $gigabytes = 1024 * $megabytes;
+    $terabytes = 1024 * $gigabytes;
+
+    if ($bytes >= $terabytes) {
+      $bytes = round($bytes / $terabytes, 2) . " TiB";
+    } else if ($bytes >= $gigabytes) {
+      $bytes = round($bytes / $gigabytes, 2) . " GiB";
+    } else if ($bytes >= $megabytes) {
+      $bytes = round($bytes / $megabytes, 2) . " MiB";
+    } else if ($bytes >= $kilobytes) {
+      $bytes = round($bytes / $kilobytes, 2) . " KiB";
+    } else {
+      $bytes = $bytes . " B";
+    }
+
+    return $bytes;
+  }
+
   public static function intervalToString($di, $zero_interval = "") {
     if (!$di instanceof DateInterval) return null;
     $buf = "";
@@ -133,6 +156,73 @@ final class Common {
     $string = self::intervalToString($diff);
     $string = ($string == "" ? "just now" : $string . " ago");
     return $string;
+  }
+
+  public static function relativeUrlToAbsolute($value) {
+    // Current request
+    $current_scheme = "https:";
+    $current_host   = getenv("HTTP_HOST");
+    $current_path   = getenv("DOCUMENT_URI");
+    $current_query  = getenv("QUERY_STRING");
+
+    // Placeholders
+    $scheme = null;
+    $host   = null;
+    $path   = null;
+    $query  = null;
+
+    // Split off query part
+    $i = strpos($value, "?");
+    if ($i !== false) {
+      $query = substr($value, $i + 1);
+      $value = substr($value, 0, $i);
+    }
+
+    // Retrieve the scheme from the $value
+    $i = strpos($value, "//");
+    if ($i !== false) {
+      $scheme = substr($value, 0, $i);
+      $value  = substr($value, $i);
+    }
+    if (empty($scheme)) $scheme = null; // Use current scheme further down
+
+    // Retrieve the host from the $value
+    if (substr($value, 0, 2) == "//") {
+      $value = substr($value, 2);
+      $i     = strpos($value, "/");
+      if ($i === false) {
+        $host  = $value;
+        $value = "";
+      } else {
+        $host  = substr($value, 0, $i);
+        $value = substr($value, $i);
+      }
+    }
+
+    // All what's left is the path
+    $path  = $value;
+    $value = "";
+
+    // If the path is empty, substitute our own
+    if (empty($path)) $path = $current_path;
+
+    // If the path is relative, splice it into current path
+    if (substr($path, 0, 1) != "/") {
+      $dir = dirname($current_path);
+      if ($dir == ".") {
+        $path = "/" . $path;
+      } else {
+        $path = "/" . $dir . "/" . $path;
+      }
+    }
+
+    // Use current values if none provided
+    if (is_null($scheme)) $scheme = $current_scheme;
+    if (is_null($host  )) $host   = $current_host;
+    if (is_null($path  )) $path   = $current_path;
+
+    // Build the url
+    return $scheme . "//" . $host . $path . ($query ? "?" . $query : "");
   }
 
   public static function sanitizeForUrl($haystack, $lowercase = true) {
