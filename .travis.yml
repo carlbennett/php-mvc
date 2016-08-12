@@ -24,5 +24,5 @@ install:
   - pecl install geoip
   - pear install http2
 script:
-  - bash -c 'set -e;for file in $(find . -type f -regex .*\.php -print); do php -e -l -f "$file"; done'
-  - bash -c 'set -e;cd ./tests;for file in $(find . -type f -regex .*\.php -print); do php -e -f "$file"; done'
+  - bash -c 'set -e;for file in $(find ./src -type f -regex .*\.php -print);do php -e -l -f "$file";done'
+  - bash -c 'set -e;pushd ./tests;for file in $(find . -type f -regex .*\.php -print);do php -e -f "$file";done;popd'

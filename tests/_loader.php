@@ -11,7 +11,7 @@ namespace CarlBennett\MVC {
     }
     $path = str_replace("\\", "/", $path);
     $classShortName = $path;
-    $path = "../" . $path . ".php";
+    $path = "../src/" . $path . ".php";
     if (!file_exists($path)) {
       trigger_error("Class not found: " .$classShortName, E_USER_ERROR);
     }
