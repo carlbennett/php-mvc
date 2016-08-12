@@ -25,7 +25,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "CarlBennett\\MVC\\Libraries\\": "src/libraries/"
+            "CarlBennett\\MVC\\Libraries\\": "src/libraries"
         }
     },
     "require": {
