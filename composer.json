@@ -23,6 +23,11 @@
             "email": "carl@carlbennett.me"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "CarlBennett\\MVC\\Libraries\\": "src/libraries/"
+        }
+    },
     "require": {
         "ext-curl": "*",
         "ext-geoip": "*",
