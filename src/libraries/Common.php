@@ -17,7 +17,7 @@ final class Common {
   /**
    * Block instantiation of this object.
    */
-  private function __contruct() {}
+  private function __construct() {}
 
   public static function curlRequest($url, $post_content = null,
       $content_type = "", $connect_timeout = 5, $max_redirects = 10) {
