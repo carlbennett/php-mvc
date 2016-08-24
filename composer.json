@@ -16,7 +16,7 @@
         "system"
     ],
     "homepage": "https://github.com/carlbennett/php-mvc",
-    "license": "CC-BY-SA-4.0",
+    "license": "AGPLv3",
     "authors": [
         {
             "name": "Carl Bennett",
