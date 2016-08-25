@@ -1,6 +1,6 @@
 {
     "name": "carlbennett/php-mvc",
-    "description": "A web content management system (CMS) compatible for use as a frontend and backend.",
+    "description": "A PHP micro-framework for use as a frontend and/or backend",
     "type": "library",
     "keywords": [
         "api",
