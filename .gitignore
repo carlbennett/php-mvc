@@ -10,6 +10,7 @@
 *.jar
 *.log
 *.patch
+*.pyc
 *.rar
 *.swp
 *.tar
@@ -20,6 +21,4 @@
 .Spotlight-V100
 .Trashes
 ._*
-/config.json
-/vendor
 Thumbs.db
