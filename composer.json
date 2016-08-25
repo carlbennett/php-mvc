@@ -16,7 +16,7 @@
         "system"
     ],
     "homepage": "https://github.com/carlbennett/php-mvc",
-    "license": "AGPLv3",
+    "license": "AGPL-3.0",
     "authors": [
         {
             "name": "Carl Bennett",
@@ -40,5 +40,9 @@
         "ext-memcached": "*",
         "ext-pdo": "*",
         "php-64bit": ">=5.5.0"
+    },
+    "suggest": {
+        "ext-geoip": "*",
+        "ext-gmp": "*"
     }
 }
