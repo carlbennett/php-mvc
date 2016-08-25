@@ -7,23 +7,25 @@
 frontend framework for a web content management system (CMS) or REST API.
 
 ## Installation
-This library is available via [composer](https://getcomposer.org). Although it
-is currently not available on _Packagist_, you can manually add this library to
-your project by adding the following JSON to your `composer.json` file.
+This library is available via [composer](https://getcomposer.org).
 
-```json
-{
-    "require": {
-        "carlbennett/php-mvc": "dev-master"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/carlbennett/php-mvc"
-        }
-    ]
-}
+```sh
+composer require carlbennett/php-mvc
+composer install
 ```
 
-Once added to your composer as specified above, you should then be able to run
-`composer install` to download and install this library to your project.
+## Usage
+The following is an example of including this library in your project. This
+assumes you have already installed the library via composer.
+
+```php
+<?php
+
+namespace MySuperAwesomeProject;
+
+use \CarlBennett\MVC\Libraries\GlobalErrorHandler;
+
+GlobalErrorHandler::createOverrides();
+
+trigger_error("This library generates detailed error messages!", E_USER_ERROR);
+```
