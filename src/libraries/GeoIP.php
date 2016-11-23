@@ -31,11 +31,6 @@ class GeoIP {
       throw new RuntimeException('GeoIP extension not installed');
     }
 
-    // Check for invalid input
-    if (!filter_var($hostname, FILTER_VALIDATE_IP)) {
-      throw new UnexpectedValueException('Input must be IPv4 or IPv6');
-    }
-
     // Worth noting is that private and reserved IPs could be validated
     // against filter_var() as well, but we let the GeoIP extension do its
     // thing with those types of IPs. It'll most likely always return false
@@ -44,7 +39,7 @@ class GeoIP {
     // Get GeoIP without throwing E_NOTICE error:
     $error_reporting = error_reporting();
     error_reporting($error_reporting & ~E_NOTICE);
-    $geoinfo = geoip_record_by_name($ip);
+    $geoinfo = geoip_record_by_name($hostname);
     error_reporting($error_reporting);
 
     // Add region name and sort the array if successfully retrieved GeoIP info
