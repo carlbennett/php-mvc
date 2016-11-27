@@ -93,7 +93,13 @@ final class GlobalErrorHandler {
     exit();
   }
 
-  public static function exceptionHandler(Exception $e) {
+  public static function exceptionHandler($e) {
+    if (PHP_VERSION >= 7.0 && !($e instanceof \Throwable)) {
+      throw new Exception("Argument must inherit Throwable");
+    } else if (PHP_VERSION < 7.0 && !($e instanceof Exception)) {
+      throw new Exception("Argument must be an Exception or a child thereof");
+    }
+
     // Back out of any output buffers:
     while (ob_get_level()) ob_end_clean();
 
