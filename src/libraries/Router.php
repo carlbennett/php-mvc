@@ -225,7 +225,7 @@ class Router {
       }
     }
 
-    if (is_null($args)) {
+    if (is_null($target)) {
       throw new ControllerNotFoundException($path);
     }
 
