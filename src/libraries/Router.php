@@ -33,6 +33,7 @@ use \http\Cookie;
 
 class Router {
 
+  protected $controllerClassPrefix;
   protected $hostname;
   protected $pathArray;
   protected $pathString;
@@ -49,8 +50,14 @@ class Router {
   protected $responseCookies;
   protected $responseHeaders;
   protected $routes;
+  protected $viewClassPrefix;
 
-  public function __construct() {
+  public function __construct(
+    $controllerClassPrefix = "", $viewClassPrefix = ""
+  ) {
+    $this->controllerClassPrefix = $controllerClassPrefix;
+    $this->viewClassPrefix       = $viewClassPrefix;
+
     $this->hostname = getenv("HTTP_HOST");
 
     if (empty($this->hostname)) {
@@ -222,8 +229,8 @@ class Router {
       throw new ControllerNotFoundException($path);
     }
 
-    $controller = array_shift($args);
-    $view       = array_shift($args);
+    $controller = $this->controllerClassPrefix . array_shift($args);
+    $view       = $this->viewClassPrefix . array_shift($args);
 
     if (is_string($controller) && !class_exists($controller)) {
       throw new ControllerNotFoundException($controller);
