@@ -219,7 +219,8 @@ class Router {
     Logger::setTransactionName($path);
 
     foreach ($this->routes as $route => $args) {
-      if (preg_match($route, $path) === 1) {
+      $matches = null;
+      if (preg_match($route, $path, $matches) === 1) {
         $target = $args;
         break;
       }
@@ -231,6 +232,9 @@ class Router {
 
     $controller = $this->controllerClassPrefix . array_shift($args);
     $view       = $this->viewClassPrefix . array_shift($args);
+
+    array_shift($matches); // Remove full pattern match
+    $args = array_merge($args, $matches); // Expose args and matches together
 
     if (is_string($controller) && !class_exists($controller)) {
       throw new ControllerNotFoundException($controller);
