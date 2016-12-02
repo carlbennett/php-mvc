@@ -81,8 +81,8 @@ class Router {
     parse_str($this->queryString, $this->queryArray);
 
     $this->requestBodyMimeType = getenv("CONTENT_TYPE");
-    $this->requestBodyArray    = $this->_getRequestBodyArray();
     $this->requestBodyString   = $this->_getRequestBodyString();
+    $this->requestBodyArray    = $this->_getRequestBodyArray();
     $this->requestCookies      = new Cookie(getenv("HTTP_COOKIE"));
     $this->responseCode        = 500;
     $this->responseContent     = "";
