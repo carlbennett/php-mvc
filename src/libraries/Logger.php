@@ -1,4 +1,4 @@
-<?php
+<?php /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  *  php-mvc, a PHP micro-framework for use as a frontend and/or backend
  *  Copyright (C) 2015-2016  Carl Bennett
@@ -23,6 +23,9 @@ namespace CarlBennett\MVC\Libraries;
 use \Exception;
 
 class Logger {
+
+    private static $overridden_error_handler;
+    private static $overridden_exception_handler;
 
     protected static $newrelic_available = false;
 
@@ -57,24 +60,48 @@ class Logger {
         return ob_get_clean();
     }
 
-    public static function initialize() {
+    public static function initialize($override = false) {
+
         if (extension_loaded("newrelic")) {
             newrelic_disable_autorum();
             self::$newrelic_available = true;
             self::setTransactionName("null");
             self::logMetric("REMOTE_ADDR", getenv("REMOTE_ADDR"));
         }
+
+        if ($override) {
+            self::$overridden_error_handler = set_error_handler(
+                "\\CarlBennett\\MVC\\Libraries\\Logger::logError"
+            );
+            self::$overridden_exception_handler = set_error_handler(
+                "\\CarlBennett\\MVC\\Libraries\\Logger::logException"
+            );
+        } else {
+            self::$overridden_error_handler     = null;
+            self::$overridden_exception_handler = null;
+        }
+
     }
 
     public static function logError($no, $str, $file, $line, $obj) {
         if (self::$newrelic_available) {
             newrelic_notice_error($no, $str, $file, $line, $obj);
         }
+        if (is_callable(self::$overridden_error_handler)) {
+            call_user_func_array(
+                self::$overridden_error_handler, func_get_args()
+            );
+        }
     }
 
     public static function logException(Exception $exception) {
         if (self::$newrelic_available) {
             newrelic_notice_error($exception->getMessage(), $exception);
+        }
+        if (is_callable(self::$overridden_exception_handler)) {
+            call_user_func_array(
+                self::$overridden_exception_handler, func_get_args()
+            );
         }
     }
 

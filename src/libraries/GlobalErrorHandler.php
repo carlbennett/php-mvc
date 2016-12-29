@@ -25,6 +25,11 @@ use \StdClass;
 
 final class GlobalErrorHandler {
 
+  private static $overridden_error_handler;
+  private static $overridden_exception_handler;
+
+  public static $continue_chain = false;
+
   /**
    * Do not allow creating an object of this class. It's meant to be 100%
    * static. The way we enforce this rule is by declaring our constructor
@@ -33,10 +38,10 @@ final class GlobalErrorHandler {
   private function __construct() {}
 
   public static function createOverrides() {
-    set_error_handler(
+    self::$overridden_error_handler = set_error_handler(
       "\\CarlBennett\\MVC\\Libraries\\GlobalErrorHandler::errorHandler"
     );
-    set_exception_handler(
+    self::$overridden_exception_handler = set_exception_handler(
       "\\CarlBennett\\MVC\\Libraries\\GlobalErrorHandler::exceptionHandler"
     );
   }
@@ -82,11 +87,11 @@ final class GlobalErrorHandler {
     error_log($_errno . ": " . $errstr
       . " in " . $errfile . " on line " . $errline);
 
-    // Report this to New Relic:
-    if (extension_loaded("newrelic")) {
-      newrelic_notice_error(
-        $errno, $errstr, $errfile, $errline, $errcontext
-      );
+    // Call the previous handler:
+    if (
+      self::$continue_chain && is_callable(self::$overridden_error_handler)
+    ) {
+      call_user_func_array(self::$overridden_error_handler, func_get_args());
     }
 
     // Stop processing the rest of the application:
@@ -134,9 +139,13 @@ final class GlobalErrorHandler {
     );
     error_log(var_export($context->stacktrace, true));
 
-    // Report this to New Relic:
-    if (extension_loaded("newrelic")) {
-      newrelic_notice_error($e->getMessage(), $e);
+    // Call the previous handler:
+    if (
+      self::$continue_chain && is_callable(self::$overridden_exception_handler)
+    ) {
+      call_user_func_array(
+        self::$overridden_exception_handler, func_get_args()
+      );
     }
 
     // Stop processing the rest of the application:
