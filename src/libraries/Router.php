@@ -153,7 +153,7 @@ class Router {
   }
 
   public function deleteRoute($pattern) {
-    unset($this->routers[$pattern]);
+    unset($this->routes[$pattern]);
   }
 
   public function getHostname() {
