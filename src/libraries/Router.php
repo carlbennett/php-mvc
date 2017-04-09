@@ -212,6 +212,10 @@ class Router {
     return $this->requestURI;
   }
 
+  public function getRoutes() {
+    return clone (object) $this->routes;
+  }
+
   public function route() {
     $path   = $this->getRequestPathString(true);
     $target = null;
