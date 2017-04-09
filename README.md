@@ -1,7 +1,5 @@
 # php-mvc
-
-[![Build Status](https://travis-ci.org/carlbennett/php-mvc.svg?branch=master)]
-(https://travis-ci.org/carlbennett/php-mvc)
+[![Build Status](https://travis-ci.org/carlbennett/php-mvc.svg?branch=master)](https://travis-ci.org/carlbennett/php-mvc)
 
 **php-mvc** is a PHP library with its intended purpose to act as a backend and
 frontend framework for a web content management system (CMS) or REST API.
