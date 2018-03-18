@@ -11,14 +11,14 @@ class Session {
      */
     private function __construct() {}
 
-    public static function initialize($server_string, $name) {
+    public static function initialize($server_string, $name, $ttl = 0) {
 
         // Storage medium for sessions
         ini_set('session.save_handler', 'memcached');
         ini_set('session.save_path', $server_string);
 
-        // Session-only cookies, deleted on browser shutdown
-        ini_set('session.cookie_lifetime', '0');
+        // Set cookie lifetime using requested $ttl value
+        ini_set('session.cookie_lifetime', $ttl);
 
         // Use HTTP cookies instead of GET/POST variables
         ini_set('session.use_cookies', 'On');
