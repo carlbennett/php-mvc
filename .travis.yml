@@ -21,7 +21,7 @@ addons:
       - libgeoip-dev
 install:
   - pear channel-update pear.php.net
-  - pecl install geoip
+  - pecl install geoip-1.1.1
   - pear install http2
 script:
   - bash -c 'set -e;for file in $(find ./src -type f -regex .*\.php -print);do php -e -l -f "$file";done'
