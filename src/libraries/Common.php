@@ -177,8 +177,26 @@ final class Common {
   }
 
   public static function relativeUrlToAbsolute($value) {
+    // Is this a secure request
+    $secure = getenv( 'HTTPS' );
+    if ( empty( $secure )) {
+      $secure = ( getenv('SERVER_PORT') == 443 );
+    } else {
+      switch ( strtolower( $secure )) {
+        case '1':
+        case 'on':
+        case 'true':
+        case 'y':
+        case 'yes':
+          $secure = true;
+          break;
+        default:
+          $secure = false;
+      }
+    }
+
     // Current request
-    $current_scheme = "https:";
+    $current_scheme = 'http' . ( $secure ? 's' : '' ) . ':';
     $current_host   = getenv("HTTP_HOST");
     $current_path   = getenv("DOCUMENT_URI");
     $current_query  = getenv("QUERY_STRING");
