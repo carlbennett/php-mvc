@@ -162,7 +162,8 @@ final class GlobalErrorHandler {
     header("Pragma: max-age=0");
 
     // Respond with some content about the problem (don't whitepage):
-    if (!ini_get("display_errors")) {
+    $display_errors = ini_get("display_errors");
+    if (!$display_errors || strtolower($display_errors) == 'off') {
       header("Content-Type: text/html;charset=utf-8");
       include(getenv("DOCUMENT_ROOT") . "/templates/GlobalErrorHandler.phtml");
     } else {
