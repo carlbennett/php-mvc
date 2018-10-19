@@ -305,12 +305,4 @@ final class Common {
     }
   }
 
-  public static function versionProperties() {
-    $versions           = new StdClass();
-    $versions->newrelic = phpversion("newrelic");
-    $versions->php      = phpversion();
-    $versions->phpmvc   = self::$config->phpmvc->version;
-    return $versions;
-  }
-
 }
