@@ -267,6 +267,10 @@ final class Common {
     return $result;
   }
 
+  public static function shellSafeExecute($command, $args) {
+    return shell_exec($command . " " . escapeshellcmd($args) . " 2>&1");
+  }
+
   public static function stripExcessLines($buffer) {
     return preg_replace("/\n\n+/", "\n\n", $buffer);
   }
