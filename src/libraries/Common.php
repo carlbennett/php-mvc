@@ -141,7 +141,7 @@ final class Common {
     );
 
     foreach ($names as $name) {
-      if (stripos($user_agent, $name ) !== false) return true;
+      if (stripos($user_agent, $name) !== false) return true;
     }
 
     // Not a browser
