@@ -120,22 +120,28 @@ final class Common {
   }
 
   public static function isBrowser($user_agent) {
-    // Browser names
-    if (stripos($user_agent, "Mozilla" ) !== false) return true;
-    if (stripos($user_agent, "Firefox" ) !== false) return true;
-    if (stripos($user_agent, "Chrome"  ) !== false) return true;
-    if (stripos($user_agent, "Chromium") !== false) return true;
-    if (stripos($user_agent, "Safari"  ) !== false) return true;
-    if (stripos($user_agent, "OPR"     ) !== false) return true;
-    if (stripos($user_agent, "Opera"   ) !== false) return true;
-    if (stripos($user_agent, "MSIE"    ) !== false) return true;
+    $names = array(
+      // Browser names
+      'Mozilla',
+      'Firefox',
+      'Chrome',
+      'Chromium',
+      'Safari',
+      'OPR',
+      'Opera',
+      'MSIE',
 
-    // Rendering engine names
-    if (stripos($user_agent, "Gecko"   ) !== false) return true;
-    if (stripos($user_agent, "WebKit"  ) !== false) return true;
-    if (stripos($user_agent, "Presto"  ) !== false) return true;
-    if (stripos($user_agent, "Trident" ) !== false) return true;
-    if (stripos($user_agent, "Blink"   ) !== false) return true;
+      // Rendering engine names
+      'Gecko',
+      'WebKit',
+      'Presto',
+      'Trident',
+      'Blink',
+    );
+
+    foreach ($names as $name) {
+      if (stripos($user_agent, $name ) !== false) return true;
+    }
 
     // Not a browser
     return false;
