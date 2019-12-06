@@ -130,6 +130,7 @@ final class Common {
       'OPR',
       'Opera',
       'MSIE',
+      'Edge',
 
       // Rendering engine names
       'Gecko',
