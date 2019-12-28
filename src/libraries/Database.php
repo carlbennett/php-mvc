@@ -30,25 +30,32 @@ class Database extends PDO {
     protected $password;
     protected $port;
     protected $timeout;
+    protected $timezone;
     protected $username;
 
-    public function __construct($host, $port, $user, $pw, $db, $c, $t) {
+    public function __construct($host, $port, $user, $pw, $db, $c, $tz, $t) {
         $this->hostname      = $host;
         $this->port          = $port;
         $this->username      = $user;
         $this->password      = $pw;
         $this->database      = $db;
         $this->character_set = $c;
+        $this->timezone      = $tz;
         $this->timeout       = $t;
         $dsn = "mysql:"
             . "host=" . $this->hostname . ";"
             . "port=" . $this->port . ";"
             . "dbname=" . $this->database . ";"
             . "charset=" . $this->character_set;
+
         parent::__construct($dsn, $this->username, $this->password, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_TIMEOUT => $this->timeout
         ]);
+
+        if (!empty($tz)) {
+          $this->query(sprintf('SET time_zone = \'%s\';', $this->timezone));
+        }
     }
 
     public function getCharacterSet() {
@@ -73,6 +80,10 @@ class Database extends PDO {
 
     public function getTimeout() {
         return $this->timeout;
+    }
+
+    public function getTimezone() {
+        return $this->timezone;
     }
 
     public function getUsername() {

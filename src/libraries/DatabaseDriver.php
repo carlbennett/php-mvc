@@ -35,6 +35,7 @@ class DatabaseDriver {
     public static $password      = null;
     public static $servers       = null;
     public static $timeout       = null;
+    public static $timezone      = null;
     public static $username      = null;
 
     public static function getDatabaseObject() {
@@ -50,7 +51,7 @@ class DatabaseDriver {
                     $server->hostname, $server->port,
                     self::$username, self::$password,
                     self::$database_name, self::$character_set,
-                    self::$timeout
+                    self::$timezone, self::$timeout
                 );
                 return $connection;
             } catch (PDOException $exception) {
