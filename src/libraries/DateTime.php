@@ -3,6 +3,7 @@
 namespace CarlBennett\MVC\Libraries;
 
 use \DateTime as PHPDateTime;
+use \DateTimeZone;
 use \JsonSerializable;
 
 class DateTime extends PHPDateTime implements JsonSerializable {
