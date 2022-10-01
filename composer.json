@@ -37,12 +37,12 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
-        "ext-memcached": "*",
         "ext-pdo": "*",
         "php-64bit": ">=7.0"
     },
     "suggest": {
         "ext-geoip": "*",
-        "ext-gmp": "*"
+        "ext-gmp": "*",
+        "ext-memcached": "*"
     }
 }
