@@ -1,7 +1,7 @@
 <?php
 /**
  *  php-mvc, a PHP micro-framework for use as a frontend and/or backend
- *  Copyright (C) 2015-2016  Carl Bennett
+ *  Copyright (C) 2015-2022  Carl Bennett
  *  This file is part of php-mvc.
  *
  *  php-mvc is free software: you can redistribute it and/or modify
@@ -26,8 +26,8 @@ use \SplObjectStorage;
 
 final class Template {
 
-    const TEMPLATE_DIRECTORY = "templates";
-    const TEMPLATE_EXTENSION = ".phtml";
+    public const TEMPLATE_DIRECTORY = "templates";
+    public const TEMPLATE_EXTENSION = ".phtml";
 
     protected $additional_css;
     protected $context;

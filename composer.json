@@ -38,7 +38,7 @@
         "ext-mbstring": "*",
         "ext-mcrypt": "*",
         "ext-pdo": "*",
-        "php-64bit": ">=7.0"
+        "php-64bit": ">=8.0"
     },
     "suggest": {
         "ext-geoip": "*",
