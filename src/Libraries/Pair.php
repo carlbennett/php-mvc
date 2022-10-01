@@ -1,7 +1,7 @@
 <?php
 /**
  *  php-mvc, a PHP micro-framework for use as a frontend and/or backend
- *  Copyright (C) 2015-2016  Carl Bennett
+ *  Copyright (C) 2015-2022  Carl Bennett
  *  This file is part of php-mvc.
  *
  *  php-mvc is free software: you can redistribute it and/or modify
@@ -20,30 +20,43 @@
 
 namespace CarlBennett\MVC\Libraries;
 
+use \JsonSerializable;
 use \Serializable;
 
-class Pair implements Serializable {
+class Pair implements JsonSerializable, Serializable
+{
+    protected string $key;
+    protected string $value;
 
-    public function __construct($key, $value) {
-        $this->key   = $key;
+    public function __construct(string $key, string $value)
+    {
+        $this->key = $key;
         $this->value = $value;
     }
 
-    public function getKey() {
+    public function getKey() : string
+    {
         return $this->key;
     }
 
-    public function getValue() {
+    public function getValue() : string
+    {
         return $this->value;
     }
 
-    public function serialize() {
-        return serialize([$this->key, $this->value]);
+    public function jsonSerialize() : mixed
+    {
+        return [$this->key, $this->value];
     }
 
-    public function unserialize($data) {
-        $this->key   = $data[0];
-        $this->value = $data[1];
+    public function serialize() : string
+    {
+        return \serialize([$this->key, $this->value]);
     }
 
+    public function unserialize(array $value) : void
+    {
+        $this->key   = $value[0];
+        $this->value = $value[1];
+    }
 }

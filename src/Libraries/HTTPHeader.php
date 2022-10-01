@@ -1,7 +1,7 @@
 <?php
 /**
  *  php-mvc, a PHP micro-framework for use as a frontend and/or backend
- *  Copyright (C) 2015-2016  Carl Bennett
+ *  Copyright (C) 2015-2022  Carl Bennett
  *  This file is part of php-mvc.
  *
  *  php-mvc is free software: you can redistribute it and/or modify
@@ -22,14 +22,15 @@ namespace CarlBennett\MVC\Libraries;
 
 use \CarlBennett\MVC\Libraries\Pair;
 
-class HTTPHeader extends Pair {
-
-    public function getName() {
+class HTTPHeader extends Pair
+{
+    public function getName() : string
+    {
         return $this->getKey();
     }
 
-    public function __tostring() {
-        return $this->key . ": " . $this->value . "\n";
+    public function __toString() : string
+    {
+        return $this->key . ': ' . $this->value . \PHP_EOL;
     }
-
 }

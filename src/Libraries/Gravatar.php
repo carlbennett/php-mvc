@@ -1,7 +1,7 @@
 <?php
 /**
  *  php-mvc, a PHP micro-framework for use as a frontend and/or backend
- *  Copyright (C) 2015-2016  Carl Bennett
+ *  Copyright (C) 2015-2022  Carl Bennett
  *  This file is part of php-mvc.
  *
  *  php-mvc is free software: you can redistribute it and/or modify
@@ -20,35 +20,58 @@
 
 namespace CarlBennett\MVC\Libraries;
 
-class Gravatar {
+use \UnexpectedValueException;
 
-  const GRAVATAR_BASE_URL = "//www.gravatar.com/avatar/";
+class Gravatar implements JsonSerializable
+{
+  public const GRAVATAR_BASE_URL = '//www.gravatar.com/avatar/';
 
-  protected $email;
+  protected string $email;
 
-  public function __construct($email) {
-    $this->email = $email;
+  public function __construct(string $email)
+  {
+    $this->setEmail($email);
   }
 
-  public function getEmail() {
+  public function getEmail() : string
+  {
     return $this->email;
   }
 
-  public function getHash() {
-    return hash("md5", strtolower(trim($this->email)));
+  public function getHash() : string
+  {
+    return \hash('md5', \strtolower(\trim($this->email)));
   }
 
-  public function getUrl(
-    $size = null, $default = null, $forcedefault = null, $rating = null
-  ) {
+  public function getUrl($size = null, $default = null, $forcedefault = null, $rating = null) : string
+  {
     $url = self::GRAVATAR_BASE_URL . $this->getHash();
     $args = [];
-    if (!is_null($size))         $args["s"] = $size;
-    if (!is_null($default))      $args["d"] = $default;
-    if (!is_null($forcedefault)) $args["f"] = $forcedefault;
-    if (!is_null($rating))       $args["r"] = $rating;
-    $query = http_build_query($args);
-    if ($query) $url .= "?" . $query;
+    if (!is_null($size))         $args['s'] = $size;
+    if (!is_null($default))      $args['d'] = $default;
+    if (!is_null($forcedefault)) $args['f'] = $forcedefault;
+    if (!is_null($rating))       $args['r'] = $rating;
+    $query = \http_build_query($args);
+    if ($query) $url .= '?' . $query;
     return $url;
+  }
+
+  public function jsonSerialize() : mixed
+  {
+    return [
+      'email' => $this->getEmail(),
+      'hash' => $this->getHash(),
+      'url' => $this->getUrl(),
+    ];
+  }
+
+  public function setEmail(string $value) : void
+  {
+    if (!\filter_var($value, \FILTER_VALIDATE_EMAIL))
+    {
+      throw new UnexpectedValueException();
+    }
+
+    $this->email = $value;
   }
 }

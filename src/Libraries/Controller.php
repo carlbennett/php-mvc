@@ -1,7 +1,7 @@
 <?php
 /**
  *  php-mvc, a PHP micro-framework for use as a frontend and/or backend
- *  Copyright (C) 2015-2016  Carl Bennett
+ *  Copyright (C) 2015-2022  Carl Bennett
  *  This file is part of php-mvc.
  *
  *  php-mvc is free software: you can redistribute it and/or modify
@@ -24,12 +24,12 @@ use \CarlBennett\MVC\Libraries\Logger;
 use \CarlBennett\MVC\Libraries\Router;
 use \CarlBennett\MVC\Libraries\View;
 
-abstract class Controller {
-
-    public function __construct() {
-        Logger::logMetric("controller", get_class($this));
+abstract class Controller
+{
+    public function __construct()
+    {
+        Logger::logMetric('controller', get_class($this));
     }
 
     public abstract function &run(Router &$router, View &$view, array &$args);
-
 }
