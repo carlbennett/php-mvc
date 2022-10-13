@@ -20,6 +20,7 @@
 
 namespace CarlBennett\MVC\Libraries;
 
+use \JsonSerializable;
 use \UnexpectedValueException;
 
 class Gravatar implements JsonSerializable
@@ -73,5 +74,15 @@ class Gravatar implements JsonSerializable
     }
 
     $this->email = $value;
+  }
+
+  public function __serialize() : array
+  {
+    return $this->jsonSerialize();
+  }
+
+  public function __unserialize(array $value) : void
+  {
+    $this->setEmail($value[0] ?? '');
   }
 }
