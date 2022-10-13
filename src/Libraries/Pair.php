@@ -21,9 +21,8 @@
 namespace CarlBennett\MVC\Libraries;
 
 use \JsonSerializable;
-use \Serializable;
 
-class Pair implements JsonSerializable, Serializable
+class Pair implements JsonSerializable
 {
     protected string $key;
     protected string $value;
@@ -49,12 +48,12 @@ class Pair implements JsonSerializable, Serializable
         return [$this->key, $this->value];
     }
 
-    public function serialize() : string
+    public function __serialize() : array
     {
-        return \serialize([$this->key, $this->value]);
+        return [$this->key, $this->value];
     }
 
-    public function unserialize(array $value) : void
+    public function __unserialize(array $value) : void
     {
         $this->key   = $value[0];
         $this->value = $value[1];
