@@ -22,55 +22,97 @@ namespace CarlBennett\MVC\Libraries;
 
 use \CarlBennett\MVC\Libraries\Exceptions\TemplateNotFoundException;
 use \CarlBennett\MVC\Libraries\Logger;
-use \SplObjectStorage;
 
-final class Template {
+class Template
+{
+    protected mixed $context;
+    protected bool $log_metric;
+    protected string $template;
 
-    public const TEMPLATE_DIRECTORY = "templates";
-    public const TEMPLATE_EXTENSION = ".phtml";
+    protected static string $template_directory = 'Templates';
+    protected static string $template_extension = '.phtml';
 
-    protected $additional_css;
-    protected $context;
-    protected $opengraph;
-    protected $template;
-
-    public function __construct(&$context, $template) {
-        $this->additional_css = [];
-        $this->opengraph      = new SplObjectStorage();
+    public function __construct(mixed &$context, string $template, bool $log_metric = true)
+    {
         $this->setContext($context);
+        $this->setLogMetric($log_metric);
         $this->setTemplate($template);
     }
 
-    public function getContext() {
+    public function getContext() : mixed
+    {
         return $this->context;
     }
 
-    public function getTemplate() {
+    public function getLogMetric() : bool
+    {
+        return $this->log_metric;
+    }
+
+    public function getTemplate() : string
+    {
         return $this->template;
     }
 
-    public function render() {
-        $cwd = getcwd();
-        try {
-            chdir($cwd . DIRECTORY_SEPARATOR . self::TEMPLATE_DIRECTORY);
-            if (!file_exists($this->template)) {
+    public static function getTemplateDirectory() : string
+    {
+        return self::$template_directory;
+    }
+
+    public static function getTemplateExtension() : string
+    {
+        return self::$template_extension;
+    }
+
+    public function render() : void
+    {
+        $cwd = \getcwd();
+        try
+        {
+            \chdir($cwd . \DIRECTORY_SEPARATOR . self::$template_directory);
+            if (!\file_exists($this->template))
+            {
                 throw new TemplateNotFoundException($this);
             }
             require($this->template);
-        } finally {
-            chdir($cwd);
+        }
+        finally
+        {
+            \chdir($cwd);
         }
     }
 
-    public function setContext(&$context) {
+    public function setContext(mixed &$context) : void
+    {
         $this->context = $context;
     }
 
-    public function setTemplate($template) {
-        $this->template = "." . DIRECTORY_SEPARATOR
-            . str_replace("/", DIRECTORY_SEPARATOR, $template)
-            . self::TEMPLATE_EXTENSION;
-        Logger::logMetric("template", $template);
+    public function setLogMetric(bool $value) : void
+    {
+        $this->log_metric = $value;
     }
 
+    public function setTemplate(string $template) : void
+    {
+        $this->template = \sprintf('.%s%s%s',
+            \DIRECTORY_SEPARATOR,
+            \str_replace('/', \DIRECTORY_SEPARATOR, $template),
+            self::$template_extension
+        );
+
+        if ($this->log_metric)
+        {
+            Logger::logMetric('Template', $template);
+        }
+    }
+
+    public static function setTemplateDirectory(string $value) : void
+    {
+        self::$template_directory = $value;
+    }
+
+    public static function setTemplateExtension(string $value) : void
+    {
+        self::$template_extension = $value;
+    }
 }

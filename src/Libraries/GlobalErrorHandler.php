@@ -29,7 +29,6 @@ use \Throwable;
 final class GlobalErrorHandler
 {
   public const TEMPLATE_NAME = 'GlobalErrorHandler';
-  public const TEMPLATE_EXTENSION = '.phtml';
   public const TEMPLATE_MIMETYPE = 'text/html;charset=utf-8';
 
   private static $overridden_error_handler;
@@ -193,8 +192,8 @@ final class GlobalErrorHandler
 
       $phtml = \sprintf(
         '%s/%s/%s%s',
-        \getenv('DOCUMENT_ROOT'), Template::TEMPLATE_DIRECTORY,
-        self::TEMPLATE_NAME, self::TEMPLATE_EXTENSION
+        \getenv('DOCUMENT_ROOT'), Template::getTemplateDirectory(),
+        self::TEMPLATE_NAME, Template::getTemplateExtension()
       );
 
       if (!\file_exists($phtml))
