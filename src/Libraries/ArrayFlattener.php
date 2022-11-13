@@ -2,8 +2,6 @@
 
 namespace CarlBennett\MVC\Libraries;
 
-use \DateTime;
-
 final class ArrayFlattener {
 
   const DELIMITER = '_';
@@ -73,7 +71,7 @@ final class ArrayFlattener {
       return;
     }
 
-    if ( $value instanceof DateTime ) {
+    if ( $value instanceof \DateTimeInterface ) {
       $buffer .= $key . '_iso '  . $value->format( 'r' ) . PHP_EOL;
       $buffer .= $key . '_unix ' . $value->format( 'U' ) . PHP_EOL;
       return;
